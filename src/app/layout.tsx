@@ -25,11 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="font-sans antialiased text-gray-900 bg-white">
+      <body className="font-sans antialiased text-gray-900 bg-white overflow-x-hidden">
         {children}
       </body>
     </html>

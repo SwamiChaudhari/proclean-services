@@ -1,108 +1,101 @@
+"use client";
+
 import Link from "next/link";
 
 const servicesList = [
   {
     icon: "🏠",
     title: "Residential Cleaning",
-    description: "Regular house cleaning services tailored to your schedule. Weekly, bi-weekly, or monthly plans available.",
+    features: ["Kitchen & Bathrooms", "Dusting & Vacuuming", "Floor Mopping"],
     price: "From $99",
-    features: ["Kitchen & Bathrooms", "Dusting & Vacuuming", "Floor Mopping", "Trash Removal"],
   },
   {
     icon: "✨",
     title: "Deep Cleaning",
-    description: "Intensive top-to-bottom cleaning that reaches every corner. Perfect for spring cleaning or special occasions.",
+    features: ["Inside Appliances", "Baseboard Scrubbing", "Window Cleaning"],
     price: "From $199",
-    features: ["Inside Appliances", "Baseboard Scrubbing", "Window Cleaning", "Cabinet Interiors"],
   },
   {
     icon: "📦",
     title: "Move-In / Move-Out",
-    description: "Complete cleaning for moving transitions. Get your security deposit back or start fresh in a spotless home.",
+    features: ["Empty Property", "All Rooms Deep Cleaned", "Carpet Cleaning"],
     price: "From $249",
-    features: ["Empty Property", "All Rooms Deep Cleaned", "Carpet Cleaning", "Wall Spot Cleaning"],
   },
   {
     icon: "🛏️",
     title: "Airbnb Cleaning",
-    description: "Fast turnaround cleaning for short-term rentals. Same-day service available for urgent turnovers.",
+    features: ["Same-Day Turnover", "Linen Change", "Restock Supplies"],
     price: "From $79",
-    features: ["Same-Day Turnover", "Linen Change", "Restock Supplies", "Photo-Ready Finish"],
   },
   {
     icon: "🏢",
     title: "Office Cleaning",
-    description: "Professional office cleaning that keeps your workspace healthy and productive. Daily, weekly, or custom schedules.",
+    features: ["Desk Areas", "Common Rooms", "Restrooms"],
     price: "From $149",
-    features: ["Desk Areas", "Common Rooms", "Restrooms", "Trash & Recycling"],
   },
   {
     icon: "🏭",
     title: "Commercial Cleaning",
-    description: "Large-scale cleaning for warehouses, retail spaces, restaurants, and industrial facilities.",
+    features: ["Floor Care", "Restroom Sanitization", "Pressure Washing"],
     price: "Custom Quote",
-    features: ["Floor Care", "Restroom Sanitization", "Window Washing", "Pressure Washing"],
   },
   {
     icon: "🔨",
     title: "Post-Construction",
-    description: "Remove construction dust, debris, and residue. Make your newly renovated space move-in ready.",
+    features: ["Dust Removal", "Debris Cleanup", "Surface Polishing"],
     price: "From $299",
-    features: ["Dust Removal", "Debris Cleanup", "Surface Polishing", "Final Inspection"],
   },
   {
     icon: "📅",
     title: "Recurring Plans",
-    description: "Save up to 20% with recurring cleaning plans. Consistent service with the same trusted team.",
+    features: ["Same Team Every Visit", "Priority Booking", "Discount Pricing"],
     price: "Save 20%",
-    features: ["Same Team Every Visit", "Flexible Scheduling", "Priority Booking", "Discount Pricing"],
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="py-16 lg:py-24 bg-gray-50">
+    <section id="services" className="py-12 lg:py-20 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section header */}
-        <div className="text-center mb-12">
-          <span className="inline-block bg-sky-blue/10 text-sky-blue font-semibold text-sm px-4 py-2 rounded-full mb-4">
+        <div className="text-center mb-10">
+          <span className="inline-block bg-blue-light text-blue font-semibold text-sm px-4 py-1.5 rounded-full mb-3">
             Our Services
           </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-deep-blue mb-4">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy mb-3">
             Cleaning Services For Every Need
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-base text-gray-500 max-w-xl mx-auto">
             From regular home cleaning to specialized commercial services, we have you covered.
           </p>
         </div>
 
-        {/* Services grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Cards: horizontal scroll snap on mobile, 2-col tablet, 4-col desktop */}
+        <div className="flex sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto sm:overflow-visible no-scrollbar pb-2 sm:pb-0 snap-x snap-mandatory sm:snap-none">
           {servicesList.map((service, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all hover:-translate-y-1 border border-gray-100 group"
+              className="bg-white rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all border border-border group flex flex-col shrink-0 snap-start w-[280px] sm:w-auto"
             >
-              <div className="text-4xl mb-4">{service.icon}</div>
-              <h3 className="text-xl font-bold text-deep-blue mb-2 group-hover:text-sky-blue transition-colors">
+              <div className="text-3xl mb-3">{service.icon}</div>
+              <h3 className="text-lg font-bold text-navy mb-3 group-hover:text-blue transition-colors">
                 {service.title}
               </h3>
-              <p className="text-gray-600 text-sm mb-4">{service.description}</p>
-              <ul className="space-y-2 mb-5">
+              <ul className="space-y-2 mb-4 flex-1">
                 {service.features.map((f, j) => (
-                  <li key={j} className="flex items-center gap-2 text-sm text-gray-700">
-                    <span className="text-soft-green font-bold">✓</span>
+                  <li key={j} className="flex items-center gap-2 text-sm text-gray-600">
+                    <span className="text-green font-bold shrink-0">✓</span>
                     {f}
                   </li>
                 ))}
               </ul>
-              <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <span className="text-lg font-bold text-cta-orange">{service.price}</span>
+              <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+                <span className="text-base font-bold text-orange">{service.price}</span>
                 <Link
                   href="#quote"
-                  className="bg-deep-blue hover:bg-sky-blue text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
+                  className="bg-navy hover:bg-blue text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors min-h-[44px] flex items-center"
                 >
-                  Book Now
+                  Book
                 </Link>
               </div>
             </div>

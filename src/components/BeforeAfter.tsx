@@ -4,123 +4,168 @@ import { useState } from "react";
 
 const transformations = [
   {
-    title: "Deep Kitchen Transformation",
-    desc: "Complete deep cleaning including inside appliances, cabinet fronts, and grout scrubbing.",
-    before: "🍳",
-    after: "✨",
-    tag: "Deep Cleaning",
+    id: 1,
+    title: "Kitchen",
+    emoji: "🍳",
+    before: "Greasy countertops, stained sink, crumb-covered floors, and cloudy cabinet glass.",
+    after: "Sparkling granite counters, polished stainless steel sink, spotless floors, and crystal-clear cabinets.",
   },
   {
-    title: "Living Room Revival",
-    desc: "Full dusting, vacuuming, upholstery cleaning, and window washing.",
-    before: "🛋️",
-    after: "🌟",
-    tag: "Residential",
+    id: 2,
+    title: "Living Room",
+    emoji: "🛋️",
+    before: "Dusty surfaces, pet hair on furniture, smudged windows, and cluttered shelves.",
+    after: "Pristine surfaces, fresh vacuumed carpets, streak-free windows, and neatly arranged décor.",
   },
   {
-    title: "Bathroom Deep Clean",
-    desc: "Tile scrubbing, fixture polishing, mold removal, and sanitization.",
-    before: "🚿",
-    after: "💎",
-    tag: "Deep Cleaning",
+    id: 3,
+    title: "Bathroom",
+    emoji: "🚿",
+    before: "Soap scum on tiles, foggy mirrors, ringed tub, and mildew in the grout.",
+    after: "Gleaming tiles, spotless mirrors, a shining tub, and bright white grout lines.",
   },
   {
-    title: "Office Space Refresh",
-    desc: "Complete office sanitization, carpet cleaning, and workspace organization.",
-    before: "🏢",
-    after: "🏆",
-    tag: "Commercial",
+    id: 4,
+    title: "Office",
+    emoji: "💼",
+    before: "Cluttered desks, dusty electronics, smudged glass, and disorganized filing areas.",
+    after: "Organized workstations, sanitized screens, polished glass, and tidy document storage.",
   },
 ];
 
 export default function BeforeAfter() {
-  const [active, setActive] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [showAfter, setShowAfter] = useState(false);
 
-  const handleNext = () => {
-    setActive((prev) => (prev + 1) % transformations.length);
+  const current = transformations[activeIndex];
+
+  const goTo = (index: number) => {
+    setActiveIndex(index);
     setShowAfter(false);
   };
 
-  const handlePrev = () => {
-    setActive((prev) => (prev - 1 + transformations.length) % transformations.length);
+  const next = () => {
+    setActiveIndex((prev) => (prev + 1) % transformations.length);
     setShowAfter(false);
   };
 
-  const current = transformations[active];
+  const prev = () => {
+    setActiveIndex((prev) => (prev - 1 + transformations.length) % transformations.length);
+    setShowAfter(false);
+  };
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+    <section className="py-16 md:py-24 bg-surface">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <div className="text-center mb-12">
-          <span className="inline-block bg-cta-orange/10 text-cta-orange font-semibold text-sm px-4 py-2 rounded-full mb-4">
-            Real Results
-          </span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-deep-blue mb-4">
-            Before & After Transformations
+          <h2 className="text-3xl md:text-4xl font-bold text-navy mb-3">
+            See the Transformation
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            See the difference our professional cleaning makes. Real homes. Real results.
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Tap or swipe to see the dramatic difference our cleaning makes.
           </p>
         </div>
 
-        {/* Interactive before/after card */}
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-            {/* Image area */}
-            <div
-              className={`relative h-64 sm:h-80 flex items-center justify-center cursor-pointer transition-all duration-500 ${
-                showAfter
-                  ? "bg-gradient-to-br from-soft-green/20 to-sky-blue/20"
-                  : "bg-gradient-to-br from-gray-200 to-gray-300"
-              }`}
-              onClick={() => setShowAfter(!showAfter)}
-            >
-              <div className="text-center">
-                <div className="text-8xl mb-4 transition-transform duration-500">
-                  {showAfter ? current.after : current.before}
-                </div>
-                <div className={`inline-block px-4 py-2 rounded-full text-sm font-bold ${
-                  showAfter ? "bg-soft-green text-white" : "bg-gray-500 text-white"
-                }`}>
-                  {showAfter ? "AFTER ✨" : "BEFORE"}
-                </div>
-              </div>
-              <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold text-gray-700">
-                {current.tag}
-              </div>
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 text-white text-xs px-3 py-1.5 rounded-full">
-                Tap to {showAfter ? "see before" : "see after"}
-              </div>
+        {/* Mobile: Single Card */}
+        <div className="md:hidden">
+          <div
+            className="relative rounded-2xl shadow-sm bg-white overflow-hidden cursor-pointer select-none"
+            onClick={() => setShowAfter((prev) => !prev)}
+            onTouchStart={(e) => {
+              const startX = e.touches[0].clientX;
+              const handler = (ev: TouchEvent) => {
+                const diff = ev.touches[0].clientX - startX;
+                if (Math.abs(diff) > 50) {
+                  if (diff < 0) next();
+                  else prev();
+                  document.removeEventListener("touchmove", handler);
+                }
+              };
+              document.addEventListener("touchmove", handler, { once: true });
+            }}
+          >
+            {/* Labels */}
+            <div className="absolute top-4 left-4 z-10">
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-opacity ${
+                  showAfter
+                    ? "bg-green text-white opacity-100"
+                    : "bg-red-500 text-white opacity-100"
+                }`}
+              >
+                {showAfter ? "After" : "Before"}
+              </span>
             </div>
 
-            {/* Info */}
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-deep-blue mb-1">{current.title}</h3>
-              <p className="text-gray-600 text-sm mb-4">{current.desc}</p>
-
-              {/* Navigation */}
-              <div className="flex items-center justify-between">
-                <button onClick={handlePrev} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
-                </button>
-                <div className="flex gap-2">
-                  {transformations.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => { setActive(i); setShowAfter(false); }}
-                      className={`w-2.5 h-2.5 rounded-full transition-all ${
-                        i === active ? "bg-deep-blue w-6" : "bg-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <button onClick={handleNext} className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
-                </button>
-              </div>
+            {/* Content */}
+            <div className="p-8 pt-14 pb-16 text-center">
+              <span className="text-5xl block mb-4">{current.emoji}</span>
+              <h3 className="text-xl font-bold text-navy mb-4">{current.title}</h3>
+              <p className="text-gray-600 leading-relaxed">
+                {showAfter ? current.after : current.before}
+              </p>
             </div>
+
+            {/* Swipe hint */}
+            <p className="text-center text-xs text-gray-400 pb-4">
+              Tap to toggle · Swipe to browse
+            </p>
           </div>
+
+          {/* Dots */}
+          <div className="flex justify-center gap-2 mt-6">
+            {transformations.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => goTo(i)}
+                aria-label={`View transformation ${i + 1}`}
+                className={`w-3 h-3 rounded-full transition-all ${
+                  i === activeIndex
+                    ? "bg-blue w-8"
+                    : "bg-gray-300 hover:bg-gray-400"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: 3-Card Grid */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {transformations.slice(0, 3).map((item, i) => (
+            <div
+              key={item.id}
+              className="rounded-2xl shadow-sm bg-white overflow-hidden"
+            >
+              <div className="p-8 text-center">
+                <span className="text-5xl block mb-4">{item.emoji}</span>
+                <h3 className="text-xl font-bold text-navy mb-4">{item.title}</h3>
+
+                {/* Before */}
+                <div className="mb-4">
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500 text-white mb-2">
+                    Before
+                  </span>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                    {item.before}
+                  </p>
+                </div>
+
+                {/* Divider */}
+                <div className="border-t border-dashed border-gray-200 my-4" />
+
+                {/* After */}
+                <div>
+                  <span className="inline-block px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-green text-white mb-2">
+                    After
+                  </span>
+                  <p className="text-gray-700 text-sm leading-relaxed">
+                    {item.after}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

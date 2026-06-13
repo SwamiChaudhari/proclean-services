@@ -1,6 +1,5 @@
 import Navbar from "@/components/Navbar";
 import StickyBottomBar from "@/components/StickyBottomBar";
-import QuoteForm from "@/components/QuoteForm";
 import Hero from "@/components/Hero";
 import TrustIndicators from "@/components/TrustIndicators";
 import Services from "@/components/Services";
